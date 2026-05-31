@@ -9,6 +9,8 @@ public class BattleBootstrap : MonoBehaviour
     [Header("Battle Tuning")]
     [SerializeField] private int startingDeploys = 8;
     [SerializeField] private int unitsPerDeploy = 3;
+    [SerializeField] private float defenderSpawnLineY = 4.8f;
+    [SerializeField] private float defenderSpawnJitterY = 0.25f;
 
     private void Awake()
     {
@@ -92,7 +94,8 @@ public class BattleBootstrap : MonoBehaviour
         for (int i = 0; i < 5; i++)
         {
             float x = Mathf.Lerp(-2.5f, 2.5f, i / 4f);
-            CreateCombatUnit($"EnemyDefender_{i + 1}", Team.Enemy, defenderStats, new Vector3(x, 4.8f + Random.Range(-0.25f, 0.25f), 0f), gate, new Color(0.9f, 0.2f, 0.2f));
+            float y = defenderSpawnLineY + Random.Range(-defenderSpawnJitterY, defenderSpawnJitterY);
+            CreateCombatUnit($"EnemyDefender_{i + 1}", Team.Enemy, defenderStats, new Vector3(x, y, 0f), gate, new Color(0.9f, 0.2f, 0.2f));
         }
     }
 
@@ -225,7 +228,7 @@ public class BattleBootstrap : MonoBehaviour
 
     private static void EnsureEventSystem()
     {
-        if (FindObjectOfType<EventSystem>() != null)
+        if (EventSystem.current != null)
         {
             return;
         }

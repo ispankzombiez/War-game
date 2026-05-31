@@ -46,7 +46,9 @@ public class UnitSpawner : MonoBehaviour
         {
             float t = unitsPerDeploy == 1 ? 0.5f : i / (float)(unitsPerDeploy - 1);
             float xOffset = Mathf.Lerp(-horizontalSpread, horizontalSpread, t);
-            Vector3 spawnPos = new Vector3(spawnCenter.x + xOffset + UnityEngine.Random.Range(-0.3f, 0.3f), spawnCenter.y + UnityEngine.Random.Range(-0.2f, 0.2f), 0f);
+            float randomXJitter = UnityEngine.Random.Range(-0.3f, 0.3f);
+            float randomYJitter = UnityEngine.Random.Range(-0.2f, 0.2f);
+            Vector3 spawnPos = new Vector3(spawnCenter.x + xOffset + randomXJitter, spawnCenter.y + randomYJitter, 0f);
 
             GameObject spawned = Instantiate(allyUnitPrefab, spawnPos, Quaternion.identity);
             if (!spawned.activeSelf)
@@ -55,7 +57,14 @@ public class UnitSpawner : MonoBehaviour
             }
 
             Unit unit = spawned.GetComponent<Unit>();
-            unit.Initialize(Team.Ally, allyStats, enemyGate);
+            if (unit != null)
+            {
+                unit.Initialize(Team.Ally, allyStats, enemyGate);
+            }
+            else
+            {
+                Debug.LogWarning("Spawned ally prefab is missing Unit component.");
+            }
         }
 
         return true;

@@ -93,7 +93,7 @@ public class BattleUI : MonoBehaviour
 
         if (resultText != null)
         {
-            resultText.text = victory ? "Victory!\nGate destroyed." : "Defeat\nNo deploys and no allies left.";
+            resultText.text = victory ? "Victory!\nGate destroyed." : "Defeat.\nNo deploys and no allies left.";
         }
     }
 
